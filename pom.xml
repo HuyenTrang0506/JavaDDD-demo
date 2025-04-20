@@ -13,7 +13,7 @@
         <module>xxxx-controller</module>
         <module>xxxx-application</module>
         <module>xxxx-infrastructure</module>
-        <module>xxx-domain</module>
+        <module>xxxx-domain</module>
     </modules>
 
     <properties>
