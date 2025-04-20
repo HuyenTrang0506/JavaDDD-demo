@@ -11,6 +11,9 @@
     <modules>
         <module>xxxx-start</module>
         <module>xxxx-controller</module>
+        <module>xxxx-application</module>
+        <module>xxxx-infrastructure</module>
+        <module>xxx-domain</module>
     </modules>
 
     <properties>
