@@ -3,3 +3,61 @@ server:
   tomcat:
     threads:
       max : 10
+spring:
+  application:
+    name: zzz.com
+resilience4j:
+  circuitbreaker:
+    enabled: true
+    instances:
+      backendA:
+        baseConfig: default
+      backendB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: PT5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordFailurePredicate: resilience4j.micronaut.demo.exception.RecordFailurePredicate
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: PT5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - io.micronaut.http.exceptions.HttpStatusException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+        ignoreExceptions:
+          - resilience4j.micronaut.demo.exception.BusinessException
+      shared:
+        slidingWindowSize: 100
+        permittedNumberOfCallsInHalfOpenState: 30
+        waitDurationInOpenState: PT1s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        ignoreExceptions:
+          - resilience4j.micronaut.demo.exception.BusinessException
+  ratelimiter:
+    enabled: true
+    configs:
+      default:
+        registerHealthIndicator: false
+        limitForPeriod: 2
+        limitRefreshPeriod: 10s
+        timeoutDuration: 0
+        eventConsumerBufferSize: 100
+    instances:
+      backendA:
+        baseConfig: default
+      backendB:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 3s
