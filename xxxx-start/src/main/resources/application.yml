@@ -20,7 +20,7 @@ resilience4j:
         waitDurationInOpenState: PT5s
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
-        recordFailurePredicate: resilience4j.micronaut.demo.exception.RecordFailurePredicate
+
     configs:
       default:
         registerHealthIndicator: true
@@ -28,23 +28,17 @@ resilience4j:
         minimumNumberOfCalls: 5
         permittedNumberOfCallsInHalfOpenState: 3
         automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: PT5s
+        waitDurationInOpenState: 50s
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
-        recordExceptions:
-          - io.micronaut.http.exceptions.HttpStatusException
-          - java.util.concurrent.TimeoutException
-          - java.io.IOException
-        ignoreExceptions:
-          - resilience4j.micronaut.demo.exception.BusinessException
+
       shared:
         slidingWindowSize: 100
         permittedNumberOfCallsInHalfOpenState: 30
         waitDurationInOpenState: PT1s
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
-        ignoreExceptions:
-          - resilience4j.micronaut.demo.exception.BusinessException
+
   ratelimiter:
     enabled: true
     configs:
@@ -61,3 +55,15 @@ resilience4j:
         limitForPeriod: 5
         limitRefreshPeriod: 10s
         timeoutDuration: 3s
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*' #be careful, just use for development
+  endpoint:
+    health:
+      show-details: always
