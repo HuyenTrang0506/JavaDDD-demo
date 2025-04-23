@@ -6,6 +6,30 @@ server:
 spring:
   application:
     name: zzz.com
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+        ddl-auto: none #none, update, create, create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+  jackson:
+    serialization:
+      indent-output: true
+  data:
+    redis:
+      host: 127.0.0.1 #Host for Redis server
+      port: 6319 #Port for Redis server
+      password: "" #Password for Redis server, default is empty
+      lettuce:
+          pool:
+              max-active: 8 #Max number of connections in the pool
+              max-idle: 8 #Max number of idle connections in the pool
+              min-idle: 0 #Min number of idle connections in the pool
+              max-wait: -1ms #Max wait time for a connection from the pool
+      connect-timeout: 30000ms #Connection timeout for Redis server
 resilience4j:
   circuitbreaker:
     enabled: true
